@@ -1,12 +1,71 @@
 # spacy_ray_collective
-A collective implementation to spacy_ray instead of grpc. <br />
-2000 update: <br />
-        Baseline: 703, 1473 (200 evaluation), score 0.71 <br />
-        P2P (Double communication):          1367 （200 evaluation）, score 0.04, gradient too large <br />
-        Note: In P2P communication, we actually doubled the communication, because we created two identical PS. <br />
-              A better way maybe use allreduce.
-              
-10000 update: <br />
-        Baseline (1 worker): 1330s <br />
-                 (2 workers): 3816s <br />
-        3x slower, which means that ray rpc is very slow. <br />
+This github is inherited from spacy-ray (dev branch). It trains model using the new collective calls available in current ray-1.2-dev, replacing the original get(), set() in ray.
+The runtime comparison for 1000 update using spacy pipeline = ["tok2vec", "ner"]:
+    |               | spacy-ray     | spacy-ray-nccl | ratio   | 
+    | ------------- | ------------- | -------------- | ------- |
+    | 1 worker      | 137.5 ± 2.1   | 125.8 ± 2.0    |  1.09x  |
+    | 2 workers     | 354.1 ± 16.8  | 184.2 ± 1.28   |  1.92x  |
+    | 4 workers     | 523.9 ± 10.4  | 198.5 ± 0.85   |  2.64x  |
+    | 8 workers     | 710.1 ± 3.0   | 228.5 ± 1.60   |  3.11x  |
+    | 16 workers    | 1296.1 ± 42.1 | 273.7 ± 6.93   |  4.74x  |
+
+Mean and standard deviation obtained by three trials (in seconds).
+    
+
+To install the necessary module:
+    1. ```conda create -n spacy-ray python=3.7.3```
+    2. ```conda activate spacy-ray```
+    3. ```pip install spacy-nightly[cuda]```
+       - This will take some time, if observe a build error in cupy, try: ```pip install cupy-cuda[version]``` (e.g. for cudatoolkit 11.0: pip install cupy-cuda110)
+    4. ```pip install spacy-ray```
+       - Run     ```python -m spacy ray --help```     to check this module is installed correctly
+    5. The collective calls are only available in current ray github. Instead we use the latest ray-1.1 in pip to test runtime.
+       - Get collective code:     ```git clone https://github.com/ray-project/ray```
+       - access the installed code of ray 1.1:    ```cd [path-to-packages]/ray```
+         If using conda, typically the path would be ```[path-to-conda]/anaconda3/envs/spacy-ray/lib/python3.7/site-packages/```
+       - copy the code over: ```cp -r [path-to-github-ray]/python/ray/util/collective [path-to-ray]/ray/util```
+       - add to __init__: ```vim [path-to-ray]/ray/util/__init__.py``` -> from ray.util import ray, append "collective" to the __all__ dict.
+    6. The last step is to replace the installed spacy-ray using this github.
+       - ```git clone https://github.com/YLJALDC/spacy_ray_nccl```
+       - ```mv [path-to-github-spacy-ray-nccl] [path-to-packages]```
+       - make a copy of the original spacy_ray in case you would like to recover the comparison:  ```mv [path-to-packages]/spacy_ray [path-to-packages]/spacy_ray_original```
+       - ```mv [path-to-packages]/spacy_ray_nccl [path-to-packages]/spacy_ray```
+
+To run examples:
+    1. ```git clone https://github.com/YLJALDC/spacy_ray_example```
+    2. ```cd spacy_ray_example/tmp/experiments/en-ent-wiki```
+    3. Setup the ray cluster in different machine. The code will detect the available ray cluster and attach.
+    4. Modify the config (for training hyperparameter) and project.yml (for number of workers)
+    5. Download and process necessary files: (reference: https://github.com/explosion/spacy-ray/tree/develop/tmp/experiments/en-ent-wiki)
+       - ```spacy project assets```
+       - ```spacy project run corpus```
+    6. spacy project run ray-train
+
+Evaluation note:
+    The github turns off the score evaluation for comparison (because evaluation takes a long time, we only want to measure the speedup during training).
+    To turn on: comment the hard-coded socres in train() function at worker.py, change the if condition from if self.rank ==0 to if True, and uncomment socres = self.evaluate()
+
+Implementation note:
+    The original spacy-ray uses sharded parameter server and update the model parameter in each worker asynchronizely. The current implementation uses all_reduce strategy, which
+performs similarly to a sharded parameter server. It has a whole copy of the model parameter in each worker. For update, it uses collective.allreduce() to synchronize gradients.
+
+Ray cluster setup node: 
+    A template for setting up a 16 machine ray cluster:
+
+  1 #!/bin/bash
+  2
+  3 MY_IPADDR=$(hostname -i)
+  4 echo $MY_IPADDR
+  5
+  6 ray stop --force
+  7 sleep 3
+  8 ray start --head --port=6380 --object-manager-port=8076  --object-store-memory=32359738368
+  9 sleep 2
+ 10
+ 11 for i in {1..15}
+ 12 do
+ 13   echo "=> node $i"
+ 14   ssh -o StrictHostKeyChecking=no h$i.ray-dev-16.BigLearning "cd spacy_ray_example/tmp/experiments/en-ent-wiki;  source ~/anaconda3/bin/activate; conda activate spacy-ray; ray stop --force; ray start --address='$MY_IPADDR:6380' --object-manager-port=8076 --object-store-memory=32359738368";
+ 15 done
+ 16 wait
+    
