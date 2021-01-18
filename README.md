@@ -14,18 +14,20 @@ Mean and standard deviation obtained by three trials (in seconds).  <br />
 <br />
 Runtime comparison: The ideal plot should be a horizontal line. <br />
 ![runtime](results/time_comparison.png) <br />
+<br />
+
 Speedup comparison: The trivial speedup is a horizontal line y = 1. <br />
 ![speedup](results/ratio_comparison.png) <br />
     
  <br />
- <br />
  
  ### To install the necessary module: <br />
  
-    1. ```conda create -n spacy-ray python=3.7.3``` <br />
+   &nbsp; &nbsp; &nbsp; &nbsp;   1. ```conda create -n spacy-ray python=3.7.3``` <br />
    &nbsp; &nbsp; &nbsp; &nbsp;   2. ```conda activate spacy-ray``` <br />
    &nbsp; &nbsp; &nbsp; &nbsp;   3. ```pip install spacy-nightly[cuda]``` <br />
-   &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;    - This will take some time, if observe a build error in cupy, try: ```pip install cupy-cuda[version]``` (e.g. for cudatoolkit 11.0: pip install cupy-cuda110 <br />
+   &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;    - This will take some time, if observe a build error in cupy, try: ```pip install cupy-cuda[version]``` 
+   &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;      e.g. for cudatoolkit 11.0: pip install cupy-cuda110 <br />
    &nbsp; &nbsp; &nbsp; &nbsp; 4. ```pip install spacy-ray``` <br />
    &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;    - Run     ```python -m spacy ray --help```     to check this module is installed correctly <br />
    &nbsp; &nbsp; &nbsp; &nbsp; 5. The collective calls are only available in current ray github. Instead we use the latest ray-1.1 in pip to test runtime. <br />
@@ -62,6 +64,7 @@ Speedup comparison: The trivial speedup is a horizontal line y = 1. <br />
 performs similarly to a sharded parameter server. It has a whole copy of the model parameter in each worker. For update, it uses collective.allreduce() to synchronize gradients. <br />
 
 ### Ray cluster setup node:  <br />
+
     &nbsp; &nbsp; &nbsp; &nbsp; A template for setting up a 16 machine ray cluster: <br />
 ```
   1 #!/bin/bash 
