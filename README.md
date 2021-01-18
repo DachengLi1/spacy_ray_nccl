@@ -1,7 +1,7 @@
 # spacy_ray_collective
-This github is inherited from spacy-ray (dev branch). It trains model using the new collective calls available in current ray-1.2-dev, <br />
-replacing the original get(), set() in ray. <br />
+This github is inherited from spacy-ray (dev branch). It trains model using the new collective calls available in current ray-1.2-dev, replacing the original get(), set() in ray. <br />
 The runtime comparison for 1000 update using spacy pipeline = ["tok2vec", "ner"]: <br />
+
     | Comparison    | spacy-ray     | spacy-ray-nccl |  ratio  |  
     | ------------- | ------------- | -------------- | ------- | 
     | 1 worker      | 137.5 ± 2.1   | 125.8 ± 2.0    |  1.09x  |
@@ -19,6 +19,7 @@ Speedup comparison: The trivial speedup is a horizontal line y = 1. <br />
     
  <br />
  <br />
+ 
 To install the necessary module: <br />
    &nbsp; &nbsp; &nbsp; &nbsp;   1. ```conda create -n spacy-ray python=3.7.3``` <br />
    &nbsp; &nbsp; &nbsp; &nbsp;   2. ```conda activate spacy-ray``` <br />
