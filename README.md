@@ -36,8 +36,8 @@ The trivial speedup is a horizontal line y = 1. <br />
 3. ```pip install spacy-nightly[cuda]``` <br />
  &nbsp;    - This will take some time, if observe a build error in cupy, try: ```pip install cupy-cuda[version]``` <br />
  &nbsp;      e.g. for cudatoolkit 11.0: ```pip install cupy-cuda110``` <br />
-4. ```pip install spacy-ray``` <br />  
- &nbsp;    - run  ```python -m spacy ray --help```  to check this module is installed correctly <br /> 
+4. ```pip install spacy-ray``` <br />
+ &nbsp;    - run ```python -m spacy ray --help``` to check whether install correctly <br />
 5. The collective calls are only available in current ray github. Instead we use the latest ray-1.1 in pip to test runtime. <br />
  &nbsp;    - get collective code:     ```git clone https://github.com/ray-project/ray``` <br />
  &nbsp;    - access the installed code of ray 1.1:    ```cd [path-to-packages]/ray``` <br />
