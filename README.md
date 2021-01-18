@@ -1,6 +1,8 @@
 # spacy_ray_collective
 This github is inherited from spacy-ray (dev branch). <br />
+<br />
 It trains model using the new collective calls available in current ray-1.2-dev, replacing the original get(), set() usage in spacy-ray. <br />
+<br />
 The runtime comparison for 1000 update using spacy pipeline = ["tok2vec", "ner"] is showed below: <br />
 
     | Comparison    | spacy-ray     | spacy-ray-nccl |  ratio  |  
@@ -11,7 +13,7 @@ The runtime comparison for 1000 update using spacy pipeline = ["tok2vec", "ner"]
     | 8 workers     | 710.1 ± 3.0   | 228.5 ± 1.60   |  3.11x  | 
     | 16 workers    | 1296.1 ± 42.1 | 273.7 ± 6.93   |  4.74x  | 
 
-Mean and standard deviation obtained by three trials (in seconds).  <br />
+Mean and standard deviation obtained by three trials (unit: second).  <br />
 <br />
 #### Runtime comparison: <br />
 
@@ -33,19 +35,20 @@ The trivial speedup is a horizontal line y = 1. <br />
 2. ```conda activate spacy-ray``` <br />
 3. ```pip install spacy-nightly[cuda]``` <br />
  &nbsp;    - This will take some time, if observe a build error in cupy, try: ```pip install cupy-cuda[version]``` <br />
- &nbsp;      e.g. for cudatoolkit 11.0: pip install cupy-cuda110 <br />
+ &nbsp;      e.g. for cudatoolkit 11.0: ```pip install cupy-cuda110``` <br />
 4. ```pip install spacy-ray``` <br />  
- &nbsp;    - run     ```python -m spacy ray --help```     to check this module is installed correctly <br /> 
+ &nbsp;    - run  ```python -m spacy ray --help```  to check this module is installed correctly <br /> 
 5. The collective calls are only available in current ray github. Instead we use the latest ray-1.1 in pip to test runtime. <br />
  &nbsp;    - get collective code:     ```git clone https://github.com/ray-project/ray``` <br />
  &nbsp;    - access the installed code of ray 1.1:    ```cd [path-to-packages]/ray``` <br />
  &nbsp;     If using conda, typically the path would be ```[path-to-conda]/anaconda3/envs/spacy-ray/lib/python3.7/site-packages/``` <br />
- &nbsp;    - copy the code over: ```cp -r [path-to-github-ray]/python/ray/util/collective [path-to-ray]/ray/util``` <br />
- &nbsp;    - add to "init" file: ```vim [path-to-ray]/ray/util/__init__.py``` -> from ray.util import ray, append "collective" to the "all" dict. <br />
+ &nbsp;    - copy the code over: ```cp -r [path-to-github-ray]ray//python/ray/util/collective ./ray/util``` <br />
+ &nbsp;    - add to "init" file: ```vim ./ray/util/__init__.py``` -> ```from ray.util import ray```, append "collective" to the "all" dict. <br />
 6. The last step is to replace the installed spacy-ray using this github. <br />
  &nbsp;   - ```git clone https://github.com/YLJALDC/spacy_ray_nccl``` <br />
  &nbsp;   - ```mv [path-to-github-spacy-ray-nccl] [path-to-packages]``` <br />
- &nbsp;   - make a copy of the original spacy_ray in case you would like to recover the comparison:  ```mv [path-to-packages]/spacy_ray [path-to-packages]/spacy_ray_original``` <br />
+ &nbsp;   - make a copy of the original spacy_ray in case you would like to recover the comparison:  <br \ >
+ &nbsp:     ```mv [path-to-packages]/spacy_ray [path-to-packages]/spacy_ray_original``` <br />
  &nbsp;   - ```mv [path-to-packages]/spacy_ray_nccl [path-to-packages]/spacy_ray``` <br />
 
 ### To run examples: <br />
@@ -57,11 +60,12 @@ The trivial speedup is a horizontal line y = 1. <br />
 5. Download and process necessary files: (reference: https://github.com/explosion/spacy-ray/tree/develop/tmp/experiments/en-ent-wiki) <br />
  &nbsp;    - ```spacy project assets``` <br />
  &nbsp;    - ```spacy project run corpus``` <br />
- &nbsp; 6. ```spacy project run ray-train``` <br />
+6. ```spacy project run ray-train``` <br />
 
 ### Evaluation note: <br />
 
 The github turns off the score evaluation for comparison. This is because evaluation takes a long time, and we only want to measure the speedup during training. <br />
+<br />
 To turn on: comment the hard-coded socres in train() function at worker.py, change the if condition from if self.rank ==0 to if True, and uncomment socres = self.evaluate() <br />
 
 ### Implementation note: <br />
