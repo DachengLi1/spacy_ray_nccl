@@ -14,11 +14,13 @@ Mean and standard deviation obtained by three trials (in seconds).  <br />
 #### Runtime comparison: <br />
 
 The ideal plot should be a horizontal line. <br />
+<br />
 ![runtime](results/time_comparison.png) <br />
 <br />
 
 #### Speedup comparison: <br /> 
 The trivial speedup is a horizontal line y = 1. <br />
+ <br />
 ![speedup](results/ratio_comparison.png) <br />
     
  <br />
@@ -31,9 +33,9 @@ The trivial speedup is a horizontal line y = 1. <br />
  &nbsp;    - This will take some time, if observe a build error in cupy, try: ```pip install cupy-cuda[version]``` <br \>
  &nbsp;      e.g. for cudatoolkit 11.0: pip install cupy-cuda110 <br />
 4. ```pip install spacy-ray``` <br />  
- &nbsp;    - Run     ```python -m spacy ray --help```     to check this module is installed correctly <br />
+ &nbsp;    - run     ```python -m spacy ray --help```     to check this module is installed correctly <br />
 5. The collective calls are only available in current ray github. Instead we use the latest ray-1.1 in pip to test runtime. <br />
- &nbsp;    - Get collective code:     ```git clone https://github.com/ray-project/ray``` <br />
+ &nbsp;    - get collective code:     ```git clone https://github.com/ray-project/ray``` <br />
  &nbsp;    - access the installed code of ray 1.1:    ```cd [path-to-packages]/ray``` <br />
  &nbsp;     If using conda, typically the path would be ```[path-to-conda]/anaconda3/envs/spacy-ray/lib/python3.7/site-packages/``` <br />
  &nbsp;    - copy the code over: ```cp -r [path-to-github-ray]/python/ray/util/collective [path-to-ray]/ray/util``` <br />
