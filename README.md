@@ -1,5 +1,7 @@
 # spacy_ray_collective
-This github is inherited from spacy-ray (dev branch). It trains model using the new collective calls available in current ray-1.2-dev, replacing the original get(), set() usage in spacy-ray. The runtime comparison for 1000 update using spacy pipeline = ["tok2vec", "ner"]: <br />
+This github is inherited from spacy-ray (dev branch). <br />
+It trains model using the new collective calls available in current ray-1.2-dev, replacing the original get(), set() usage in spacy-ray. <br />
+The runtime comparison for 1000 update using spacy pipeline = ["tok2vec", "ner"] is showed below: <br />
 
     | Comparison    | spacy-ray     | spacy-ray-nccl |  ratio  |  
     | ------------- | ------------- | -------------- | ------- | 
@@ -30,10 +32,10 @@ The trivial speedup is a horizontal line y = 1. <br />
 1. ```conda create -n spacy-ray python=3.7.3``` <br />
 2. ```conda activate spacy-ray``` <br />
 3. ```pip install spacy-nightly[cuda]``` <br />
- &nbsp;    - This will take some time, if observe a build error in cupy, try: ```pip install cupy-cuda[version]``` <br \>
+ &nbsp;    - This will take some time, if observe a build error in cupy, try: ```pip install cupy-cuda[version]``` <br />
  &nbsp;      e.g. for cudatoolkit 11.0: pip install cupy-cuda110 <br />
 4. ```pip install spacy-ray``` <br />  
- &nbsp;    - run     ```python -m spacy ray --help```     to check this module is installed correctly <br />
+ &nbsp;    - run     ```python -m spacy ray --help```     to check this module is installed correctly <br /> 
 5. The collective calls are only available in current ray github. Instead we use the latest ray-1.1 in pip to test runtime. <br />
  &nbsp;    - get collective code:     ```git clone https://github.com/ray-project/ray``` <br />
  &nbsp;    - access the installed code of ray 1.1:    ```cd [path-to-packages]/ray``` <br />
