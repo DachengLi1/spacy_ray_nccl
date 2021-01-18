@@ -1,5 +1,4 @@
 # spacy_ray_collective
-<pre>
 This github is inherited from spacy-ray (dev branch). It trains model using the new collective calls available in current ray-1.2-dev, <br />
 replacing the original get(), set() in ray. <br />
 The runtime comparison for 1000 update using spacy pipeline = ["tok2vec", "ner"]: <br />
@@ -14,14 +13,13 @@ The runtime comparison for 1000 update using spacy pipeline = ["tok2vec", "ner"]
 Mean and standard deviation obtained by three trials (in seconds).  <br />
 <br />
 Runtime comparison: The ideal plot should be a horizontal line.
-
+![runtime](results/time_comparison.png)
 Speedup comparison: The trivial speedup is a horizontal line y = 1.
-
-
+![speedup](results/ratio_comparison.png)
     
 
 To install the necessary module: <br />
-    1. ```conda create -n spacy-ray python=3.7.3``` <br />
+   &nbsp;  1. ```conda create -n spacy-ray python=3.7.3``` <br />
     2. ```conda activate spacy-ray``` <br />
     3. ```pip install spacy-nightly[cuda]``` <br />
        - This will take some time, if observe a build error in cupy, try: ```pip install cupy-cuda[version]``` (e.g. for cudatoolkit 11.0: pip install cupy-cuda110 <br />
@@ -77,5 +75,4 @@ Ray cluster setup node:  <br />
  15 done 
  16 wait 
 ```
-<\pre>
     
