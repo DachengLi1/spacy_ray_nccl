@@ -13,7 +13,7 @@ The runtime comparison for 1000 update using spacy pipeline = ["tok2vec", "ner"]
     | 8 workers     | 710.1 ± 3.0   | 228.5 ± 1.60   |  3.11x  | 
     | 16 workers    | 1296.1 ± 42.1 | 273.7 ± 6.93   |  4.74x  | 
 
-Mean and standard deviation are obtained by three trials (unit: second).  <br />
+Mean and standard deviation are obtained by three trials (unit: second). Each worker is on a different node.  <br />
 <br />
 #### Runtime comparison: <br />
 
