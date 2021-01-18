@@ -42,7 +42,7 @@ The trivial speedup is a horizontal line y = 1. <br />
  &nbsp;    - get collective code:     ```git clone https://github.com/ray-project/ray``` <br />
  &nbsp;    - access the installed code of ray 1.1:    ```cd [path-to-packages]/ray``` <br />
  &nbsp;     If using conda, typically the path would be ```[path-to-conda]/anaconda3/envs/spacy-ray/lib/python3.7/site-packages/``` <br />
- &nbsp;    - copy the code over: ```cp -r [path-to-github-ray]ray//python/ray/util/collective ./ray/util``` <br />
+ &nbsp;    - copy the code over: ```cp -r [path-to-github-ray]ray/python/ray/util/collective ./ray/util``` <br />
  &nbsp;    - add to "init" file: ```vim ./ray/util/__init__.py``` -> ```from ray.util import ray```, append "collective" to the "all" dict. <br />
 6. The last step is to replace the installed spacy-ray using this github. <br />
  &nbsp;   - ```git clone https://github.com/YLJALDC/spacy_ray_nccl``` <br />
