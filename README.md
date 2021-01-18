@@ -20,7 +20,7 @@ Speedup comparison: The trivial speedup is a horizontal line y = 1. <br />
  <br />
  <br />
  
-To install the necessary module: <br />
+ ### To install the necessary module: <br />
    &nbsp; &nbsp; &nbsp; &nbsp;   1. ```conda create -n spacy-ray python=3.7.3``` <br />
    &nbsp; &nbsp; &nbsp; &nbsp;   2. ```conda activate spacy-ray``` <br />
    &nbsp; &nbsp; &nbsp; &nbsp;   3. ```pip install spacy-nightly[cuda]``` <br />
@@ -39,7 +39,7 @@ To install the necessary module: <br />
     &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;   - make a copy of the original spacy_ray in case you would like to recover the comparison:  ```mv [path-to-packages]/spacy_ray [path-to-packages]/spacy_ray_original``` <br />
     &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;   - ```mv [path-to-packages]/spacy_ray_nccl [path-to-packages]/spacy_ray``` <br />
 
-To run examples: <br />
+### To run examples: <br />
     &nbsp; &nbsp; &nbsp; &nbsp; 1. ```git clone https://github.com/YLJALDC/spacy_ray_example``` <br />
     &nbsp; &nbsp; &nbsp; &nbsp; 2. ```cd spacy_ray_example/tmp/experiments/en-ent-wiki``` <br />
     &nbsp; &nbsp; &nbsp; &nbsp; 3. Setup the ray cluster in different machine. The code will detect the available ray cluster and attach. <br />
@@ -49,15 +49,15 @@ To run examples: <br />
     &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;    - ```spacy project run corpus``` <br />
     &nbsp; &nbsp; &nbsp; &nbsp; 6. spacy project run ray-train <br />
 
-Evaluation note: <br \>
+### Evaluation note: <br />
     &nbsp; &nbsp; &nbsp; &nbsp; The github turns off the score evaluation for comparison (because evaluation takes a long time, we only want to measure the speedup during training). <br />
     &nbsp; &nbsp; &nbsp; &nbsp; To turn on: comment the hard-coded socres in train() function at worker.py, change the if condition from if self.rank ==0 to if True, and uncomment socres = self.evaluate() <br />
 
-Implementation note: <br />
+### Implementation note: <br />
     &nbsp; &nbsp; &nbsp; &nbsp; The original spacy-ray uses sharded parameter server and update the model parameter in each worker asynchronizely. The current implementation uses all_reduce strategy, which <br />
 performs similarly to a sharded parameter server. It has a whole copy of the model parameter in each worker. For update, it uses collective.allreduce() to synchronize gradients. <br />
 
-Ray cluster setup node:  <br />
+### Ray cluster setup node:  <br />
     &nbsp; &nbsp; &nbsp; &nbsp; A template for setting up a 16 machine ray cluster: <br />
 ```
   1 #!/bin/bash 
