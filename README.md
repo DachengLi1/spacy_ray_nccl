@@ -12,51 +12,52 @@ The runtime comparison for 1000 update using spacy pipeline = ["tok2vec", "ner"]
 
 Mean and standard deviation obtained by three trials (in seconds).  <br />
 <br />
-Runtime comparison: The ideal plot should be a horizontal line.
-![runtime](results/time_comparison.png)
-Speedup comparison: The trivial speedup is a horizontal line y = 1.
-![speedup](results/ratio_comparison.png)
+Runtime comparison: The ideal plot should be a horizontal line. <br />
+![runtime](results/time_comparison.png) <br />
+Speedup comparison: The trivial speedup is a horizontal line y = 1. <br />
+![speedup](results/ratio_comparison.png) <br />
     
-
+ <br />
+ <br />
 To install the necessary module: <br />
-   &nbsp;  1. ```conda create -n spacy-ray python=3.7.3``` <br />
-    2. ```conda activate spacy-ray``` <br />
-    3. ```pip install spacy-nightly[cuda]``` <br />
-       - This will take some time, if observe a build error in cupy, try: ```pip install cupy-cuda[version]``` (e.g. for cudatoolkit 11.0: pip install cupy-cuda110 <br />
-    4. ```pip install spacy-ray``` <br />
-       - Run     ```python -m spacy ray --help```     to check this module is installed correctly <br />
-    5. The collective calls are only available in current ray github. Instead we use the latest ray-1.1 in pip to test runtime. <br />
-       - Get collective code:     ```git clone https://github.com/ray-project/ray``` <br />
-       - access the installed code of ray 1.1:    ```cd [path-to-packages]/ray``` <br />
-         If using conda, typically the path would be ```[path-to-conda]/anaconda3/envs/spacy-ray/lib/python3.7/site-packages/``` <br />
-       - copy the code over: ```cp -r [path-to-github-ray]/python/ray/util/collective [path-to-ray]/ray/util``` <br />
-       - add to __init__: ```vim [path-to-ray]/ray/util/__init__.py``` -> from ray.util import ray, append "collective" to the __all__ dict. <br />
-    6. The last step is to replace the installed spacy-ray using this github. <br />
-       - ```git clone https://github.com/YLJALDC/spacy_ray_nccl``` <br />
-       - ```mv [path-to-github-spacy-ray-nccl] [path-to-packages]``` <br />
-       - make a copy of the original spacy_ray in case you would like to recover the comparison:  ```mv [path-to-packages]/spacy_ray [path-to-packages]/spacy_ray_original``` <br />
-       - ```mv [path-to-packages]/spacy_ray_nccl [path-to-packages]/spacy_ray``` <br />
+   &nbsp; &nbsp; &nbsp; &nbsp;   1. ```conda create -n spacy-ray python=3.7.3``` <br />
+   &nbsp; &nbsp; &nbsp; &nbsp;   2. ```conda activate spacy-ray``` <br />
+   &nbsp; &nbsp; &nbsp; &nbsp;   3. ```pip install spacy-nightly[cuda]``` <br />
+   &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;    - This will take some time, if observe a build error in cupy, try: ```pip install cupy-cuda[version]``` (e.g. for cudatoolkit 11.0: pip install cupy-cuda110 <br />
+   &nbsp; &nbsp; &nbsp; &nbsp; 4. ```pip install spacy-ray``` <br />
+   &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;    - Run     ```python -m spacy ray --help```     to check this module is installed correctly <br />
+   &nbsp; &nbsp; &nbsp; &nbsp; 5. The collective calls are only available in current ray github. Instead we use the latest ray-1.1 in pip to test runtime. <br />
+   &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;    - Get collective code:     ```git clone https://github.com/ray-project/ray``` <br />
+   &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;    - access the installed code of ray 1.1:    ```cd [path-to-packages]/ray``` <br />
+   &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;     If using conda, typically the path would be ```[path-to-conda]/anaconda3/envs/spacy-ray/lib/python3.7/site-packages/``` <br />
+   &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;    - copy the code over: ```cp -r [path-to-github-ray]/python/ray/util/collective [path-to-ray]/ray/util``` <br />
+   &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;    - add to __init__: ```vim [path-to-ray]/ray/util/__init__.py``` -> from ray.util import ray, append "collective" to the __all__ dict. <br />
+    &nbsp; &nbsp; &nbsp; &nbsp; 6. The last step is to replace the installed spacy-ray using this github. <br />
+    &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;   - ```git clone https://github.com/YLJALDC/spacy_ray_nccl``` <br />
+    &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;   - ```mv [path-to-github-spacy-ray-nccl] [path-to-packages]``` <br />
+    &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;   - make a copy of the original spacy_ray in case you would like to recover the comparison:  ```mv [path-to-packages]/spacy_ray [path-to-packages]/spacy_ray_original``` <br />
+    &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;   - ```mv [path-to-packages]/spacy_ray_nccl [path-to-packages]/spacy_ray``` <br />
 
 To run examples: <br />
-    1. ```git clone https://github.com/YLJALDC/spacy_ray_example``` <br />
-    2. ```cd spacy_ray_example/tmp/experiments/en-ent-wiki``` <br />
-    3. Setup the ray cluster in different machine. The code will detect the available ray cluster and attach. <br />
-    4. Modify the config (for training hyperparameter) and project.yml (for number of workers) <br />
-    5. Download and process necessary files: (reference: https://github.com/explosion/spacy-ray/tree/develop/tmp/experiments/en-ent-wiki) <br />
-        - ```spacy project assets``` <br />
-        - ```spacy project run corpus``` <br />
-    6. spacy project run ray-train <br />
+    &nbsp; &nbsp; &nbsp; &nbsp; 1. ```git clone https://github.com/YLJALDC/spacy_ray_example``` <br />
+    &nbsp; &nbsp; &nbsp; &nbsp; 2. ```cd spacy_ray_example/tmp/experiments/en-ent-wiki``` <br />
+    &nbsp; &nbsp; &nbsp; &nbsp; 3. Setup the ray cluster in different machine. The code will detect the available ray cluster and attach. <br />
+    &nbsp; &nbsp; &nbsp; &nbsp; 4. Modify the config (for training hyperparameter) and project.yml (for number of workers) <br />
+    &nbsp; &nbsp; &nbsp; &nbsp; 5. Download and process necessary files: (reference: https://github.com/explosion/spacy-ray/tree/develop/tmp/experiments/en-ent-wiki) <br />
+    &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;    - ```spacy project assets``` <br />
+    &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp;    - ```spacy project run corpus``` <br />
+    &nbsp; &nbsp; &nbsp; &nbsp; 6. spacy project run ray-train <br />
 
 Evaluation note: <br \>
-    The github turns off the score evaluation for comparison (because evaluation takes a long time, we only want to measure the speedup during training). <br />
-    To turn on: comment the hard-coded socres in train() function at worker.py, change the if condition from if self.rank ==0 to if True, and uncomment socres = self.evaluate() <br />
+    &nbsp; &nbsp; &nbsp; &nbsp; The github turns off the score evaluation for comparison (because evaluation takes a long time, we only want to measure the speedup during training). <br />
+    &nbsp; &nbsp; &nbsp; &nbsp; To turn on: comment the hard-coded socres in train() function at worker.py, change the if condition from if self.rank ==0 to if True, and uncomment socres = self.evaluate() <br />
 
 Implementation note: <br />
-    The original spacy-ray uses sharded parameter server and update the model parameter in each worker asynchronizely. The current implementation uses all_reduce strategy, which <br />
+    &nbsp; &nbsp; &nbsp; &nbsp; The original spacy-ray uses sharded parameter server and update the model parameter in each worker asynchronizely. The current implementation uses all_reduce strategy, which <br />
 performs similarly to a sharded parameter server. It has a whole copy of the model parameter in each worker. For update, it uses collective.allreduce() to synchronize gradients. <br />
 
 Ray cluster setup node:  <br />
-    A template for setting up a 16 machine ray cluster: <br />
+    &nbsp; &nbsp; &nbsp; &nbsp; A template for setting up a 16 machine ray cluster: <br />
 ```
   1 #!/bin/bash 
   2 
