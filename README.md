@@ -11,13 +11,13 @@ This github is inherited from spacy-ray (dev branch). It trains model using the 
 
 Mean and standard deviation obtained by three trials (in seconds).  <br />
 <br />
-###### Runtime comparison: <br />
+#### Runtime comparison: <br />
 
 The ideal plot should be a horizontal line. <br />
 ![runtime](results/time_comparison.png) <br />
 <br />
 
-###### Speedup comparison: <br /> 
+#### Speedup comparison: <br /> 
 The trivial speedup is a horizontal line y = 1. <br />
 ![speedup](results/ratio_comparison.png) <br />
     
@@ -28,21 +28,21 @@ The trivial speedup is a horizontal line y = 1. <br />
 1. ```conda create -n spacy-ray python=3.7.3``` <br />
 2. ```conda activate spacy-ray``` <br />
 3. ```pip install spacy-nightly[cuda]``` <br />
-&nbsp; &nbsp;    - This will take some time, if observe a build error in cupy, try: ```pip install cupy-cuda[version]``` <br \>
-&nbsp; &nbsp;      e.g. for cudatoolkit 11.0: pip install cupy-cuda110 <br />
+ &nbsp;    - This will take some time, if observe a build error in cupy, try: ```pip install cupy-cuda[version]``` <br \>
+ &nbsp;      e.g. for cudatoolkit 11.0: pip install cupy-cuda110 <br />
 4. ```pip install spacy-ray``` <br />  
-&nbsp; &nbsp;    - Run     ```python -m spacy ray --help```     to check this module is installed correctly <br />
+ &nbsp;    - Run     ```python -m spacy ray --help```     to check this module is installed correctly <br />
 5. The collective calls are only available in current ray github. Instead we use the latest ray-1.1 in pip to test runtime. <br />
-&nbsp; &nbsp;    - Get collective code:     ```git clone https://github.com/ray-project/ray``` <br />
-&nbsp; &nbsp;    - access the installed code of ray 1.1:    ```cd [path-to-packages]/ray``` <br />
-&nbsp; &nbsp;     If using conda, typically the path would be ```[path-to-conda]/anaconda3/envs/spacy-ray/lib/python3.7/site-packages/``` <br />
-&nbsp; &nbsp;    - copy the code over: ```cp -r [path-to-github-ray]/python/ray/util/collective [path-to-ray]/ray/util``` <br />
-&nbsp; &nbsp;    - add to "init" file: ```vim [path-to-ray]/ray/util/__init__.py``` -> from ray.util import ray, append "collective" to the "all" dict. <br />
+ &nbsp;    - Get collective code:     ```git clone https://github.com/ray-project/ray``` <br />
+ &nbsp;    - access the installed code of ray 1.1:    ```cd [path-to-packages]/ray``` <br />
+ &nbsp;     If using conda, typically the path would be ```[path-to-conda]/anaconda3/envs/spacy-ray/lib/python3.7/site-packages/``` <br />
+ &nbsp;    - copy the code over: ```cp -r [path-to-github-ray]/python/ray/util/collective [path-to-ray]/ray/util``` <br />
+ &nbsp;    - add to "init" file: ```vim [path-to-ray]/ray/util/__init__.py``` -> from ray.util import ray, append "collective" to the "all" dict. <br />
 6. The last step is to replace the installed spacy-ray using this github. <br />
-&nbsp; &nbsp;   - ```git clone https://github.com/YLJALDC/spacy_ray_nccl``` <br />
-&nbsp; &nbsp;   - ```mv [path-to-github-spacy-ray-nccl] [path-to-packages]``` <br />
-&nbsp; &nbsp;   - make a copy of the original spacy_ray in case you would like to recover the comparison:  ```mv [path-to-packages]/spacy_ray [path-to-packages]/spacy_ray_original``` <br />
-&nbsp; &nbsp;   - ```mv [path-to-packages]/spacy_ray_nccl [path-to-packages]/spacy_ray``` <br />
+ &nbsp;   - ```git clone https://github.com/YLJALDC/spacy_ray_nccl``` <br />
+ &nbsp;   - ```mv [path-to-github-spacy-ray-nccl] [path-to-packages]``` <br />
+ &nbsp;   - make a copy of the original spacy_ray in case you would like to recover the comparison:  ```mv [path-to-packages]/spacy_ray [path-to-packages]/spacy_ray_original``` <br />
+ &nbsp;   - ```mv [path-to-packages]/spacy_ray_nccl [path-to-packages]/spacy_ray``` <br />
 
 ### To run examples: <br />
 
@@ -51,13 +51,13 @@ The trivial speedup is a horizontal line y = 1. <br />
 3. Setup the ray cluster in different machine. The code will detect the available ray cluster and attach. <br />
 4. Modify the config (for training hyperparameter) and project.yml (for number of workers) <br />
 5. Download and process necessary files: (reference: https://github.com/explosion/spacy-ray/tree/develop/tmp/experiments/en-ent-wiki) <br />
-&nbsp; &nbsp;    - ```spacy project assets``` <br />
-&nbsp; &nbsp;    - ```spacy project run corpus``` <br />
-&nbsp; &nbsp; 6. ```spacy project run ray-train``` <br />
+ &nbsp;    - ```spacy project assets``` <br />
+ &nbsp;    - ```spacy project run corpus``` <br />
+ &nbsp; 6. ```spacy project run ray-train``` <br />
 
 ### Evaluation note: <br />
 
-The github turns off the score evaluation for comparison (because evaluation takes a long time, we only want to measure the speedup during training). <br />
+The github turns off the score evaluation for comparison. This is because evaluation takes a long time, and we only want to measure the speedup during training. <br />
 To turn on: comment the hard-coded socres in train() function at worker.py, change the if condition from if self.rank ==0 to if True, and uncomment socres = self.evaluate() <br />
 
 ### Implementation note: <br />
