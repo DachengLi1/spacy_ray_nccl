@@ -81,8 +81,8 @@ class RayPeerProxy:
         with Device(0):
             comm_value = cupy.asarray(self._params[key].copy())
         # allreduce the param value and average.
-        collective.allreduce(comm_value, "default")
-        comm_value /= self.num_workers
+        #collective.allreduce(comm_value, "default")
+        #comm_value /= self.num_workers
         # Place the new values to the original device.
         if isinstance(self._params[key], numpy.ndarray):
             self._params[key] = comm_value.get()
