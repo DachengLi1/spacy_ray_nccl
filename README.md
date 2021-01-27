@@ -7,11 +7,11 @@ The runtime comparison for 1000 update using spacy pipeline = ["tok2vec", "ner"]
 
     | Comparison    | spacy-ray     | spacy-ray-nccl |  ratio  |  
     | ------------- | ------------- | -------------- | ------- | 
-    | 1 worker      | 137.5 ± 2.1   | 125.8 ± 2.0    |  1.09x  |
-    | 2 workers     | 354.1 ± 16.8  | 184.2 ± 1.28   |  1.92x  |  
-    | 4 workers     | 523.9 ± 10.4  | 198.5 ± 0.85   |  2.64x  |  
-    | 8 workers     | 710.1 ± 3.0   | 228.5 ± 1.60   |  3.11x  | 
-    | 16 workers    | 1296.1 ± 42.1 | 273.7 ± 6.93   |  4.74x  | 
+    | 1 worker      | 137.5 ± 2.1   | 116.7 ± 2.51   |  1.18x  |
+    | 2 workers     | 354.1 ± 16.8  | 171.1 ± 1.11   |  2.07x  |  
+    | 4 workers     | 523.9 ± 10.4  | 179.6 ± 2.91   |  2.92x  |  
+    | 8 workers     | 710.1 ± 3.0   | 205.8 ± 1.20   |  3.45x  | 
+    | 16 workers    | 1296.1 ± 42.1 | 248.3 ± 3.63   |  5.22x  | 
 
 Mean and standard deviation are obtained by three trials (unit: second). Each worker is on a different node.  <br />
 <br />
@@ -19,13 +19,20 @@ Mean and standard deviation are obtained by three trials (unit: second). Each wo
 
 The ideal plot should be a horizontal line. <br />
 <br />
-![runtime](results/time_comparison.png) <br />
+![runtime](results/time_comparison.PNG) <br />
 <br />
 
 #### Speedup comparison: <br /> 
 The trivial speedup is a horizontal line y = 1. <br />
  <br />
-![speedup](results/ratio_comparison.png) <br />
+![speedup](results/ratio_comparison.PNG) <br />
+    
+ <br />
+ 
+ #### Scalability comparison: <br /> 
+The ideal scalability is the line y = x. <br />
+ <br />
+![sscalability](results/scalability_comparison.PNG) <br />
     
  <br />
  
