@@ -52,7 +52,7 @@ The ideal scalability is the line y = x. <br />
  &nbsp;    - copy the code over: ```cp -r [path-to-github-ray]ray/python/ray/util/collective ./ray/util``` <br />
  &nbsp;    - add to "init" file: ```vim ./ray/util/__init__.py``` -> ```from ray.util import ray```, append "collective" to the "all" dict. <br />
 6. The last step is to replace the installed spacy-ray using this github. <br />
- &nbsp;   - ```git clone https://github.com/YLJALDC/spacy_ray_nccl``` <br />
+ &nbsp;   - ```git clone https://github.com/MccRee177/spacy_ray_nccl``` <br />
  &nbsp;   - ```mv [path-to-github-spacy-ray-nccl] [path-to-packages]``` <br />
  &nbsp;   - make a copy of the original spacy_ray in case you would like to recover the comparison:  <br \ >
  &nbsp:     ```mv [path-to-packages]/spacy_ray [path-to-packages]/spacy_ray_original``` <br />
@@ -60,7 +60,7 @@ The ideal scalability is the line y = x. <br />
 
 ### To run examples: <br />
 
-1. ```git clone https://github.com/YLJALDC/spacy_ray_example``` <br />
+1. ```git clone https://github.com/MccRee177/spacy_ray_example``` <br />
 2. ```cd spacy_ray_example/tmp/experiments/en-ent-wiki``` <br />
 3. Setup the ray cluster in different machine. The code will detect the available ray cluster and attach. <br />
 4. Modify the config (for training hyperparameter) and project.yml (for number of workers) <br />
